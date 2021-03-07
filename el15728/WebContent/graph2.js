@@ -31,7 +31,7 @@ async function CreateTableFromJSON(){
     var first=[];
     var second=[];
     var total=[];
-    
+    //var count=0;
     var temp1=0;
     var temp2=0;
     for (var i = 0; i < x; i++){
@@ -39,9 +39,53 @@ async function CreateTableFromJSON(){
     		temp1=temp1+data[i][col[2]];
     		temp2=temp2+data[i][col[3]];
     		
+    	}else{
+    		xlabels.push(date);
+    		first.push(temp1);
+    		second.push(temp2);
+    		total.push(temp1+temp2);
+    	    temp1=0;
+    	    temp2=0;
+    	    date=data[i][col[6]]
+    		
     	}
     	
     }
+    console.log(first, second, xlabels	);
+    
+    var ctx = document.getElementById('chart').getContext('2d');
+    var myLineChart = new Chart(ctx, {
+        type: 'line',
+        data:{
+        labels: xlabels,
+        datasets:[{
+        	data:first,
+        	label:"first dose",
+        	borderColor: "#3e95cd",
+            fill: false
+        },
+        {
+        	data:second,
+        	label:"second dose",
+        	borderColor: "#8e5ea2",
+            fill: false
+        },
+        {
+        	data:total,
+        	label:"total",
+        	borderColor: "#e8c3b9",
+            fill: false
+        }
+        	
+        ]
+        },  
+    options: {
+        title: {
+            display: true,
+            text: 'Data for greece covid vaccination'
+          }
+        }
+      });
     
     
 
